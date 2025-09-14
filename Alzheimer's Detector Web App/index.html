@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Disease Detector</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4 sm:p-8">
+
+    <!-- Main Container -->
+    <div class="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl max-w-4xl w-full flex flex-col md:flex-row gap-8">
+
+        <!-- Left Column: Project Description -->
+        <div class="md:w-1/2 flex flex-col justify-center">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-800 mb-4 text-center md:text-left">Alzheimer's Disease Detection</h1>
+            <p class="text-gray-600 mb-6 text-center md:text-left">
+                This interactive web application demonstrates a machine learning model designed to assist in the early detection of Alzheimer's Disease. It uses a simple, explainable model to not only predict the outcome but also to show which factors most influence the prediction.
+            </p>
+
+            <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-200">
+                <h2 class="text-xl font-semibold text-indigo-700 mb-3">How it works:</h2>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>**Data Input:** We collect key patient data points.</li>
+                    <li>**Model Logic:** A simplified, explainable model processes the data.</li>
+                    <li>**Prediction & Explainability:** The model predicts a result and explains the primary factors behind the decision.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column: Prediction Form -->
+        <div class="md:w-1/2 bg-white rounded-2xl shadow-lg p-6 flex flex-col">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Prediction Tool</h2>
+            <form id="predictionForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Age -->
+                <div>
+                    <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                    <input type="number" id="age" name="age" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+
+                <!-- Gender -->
+                <div>
+                    <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                    <select id="gender" name="gender" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </div>
+
+                <!-- Education -->
+                <div>
+                    <label for="educ" class="block text-sm font-medium text-gray-700">Years of Education</label>
+                    <input type="number" id="educ" name="educ" min="0" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+                
+                <!-- SES (Socioeconomic Status) -->
+                <div>
+                    <label for="ses" class="block text-sm font-medium text-gray-700">Socioeconomic Status (SES)</label>
+                    <input type="number" id="ses" name="ses" min="1" max="5" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <p class="mt-1 text-xs text-gray-500">1 to 5, with 1 being high status.</p>
+                </div>
+
+                <!-- MMSE -->
+                <div>
+                    <label for="mmse" class="block text-sm font-medium text-gray-700">Mini-Mental State Exam (MMSE)</label>
+                    <input type="number" id="mmse" name="mmse" min="0" max="30" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <p class="mt-1 text-xs text-gray-500">A score out of 30; lower scores indicate cognitive impairment.</p>
+                </div>
+
+                <!-- CDR -->
+                <div>
+                    <label for="cdr" class="block text-sm font-medium text-gray-700">Clinical Dementia Rating (CDR)</label>
+                    <input type="number" id="cdr" name="cdr" step="0.5" min="0" max="3" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <p class="mt-1 text-xs text-gray-500">Score from 0 to 3, with 0 being no dementia.</p>
+                </div>
+
+                <!-- Estimated Total Intracranial Volume -->
+                <div>
+                    <label for="etiv" class="block text-sm font-medium text-gray-700">Estimated Total Intracranial Volume ($cm^3$)</label>
+                    <input type="number" id="etiv" name="etiv" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+
+                <!-- Normalized Whole Brain Volume -->
+                <div>
+                    <label for="nwbv" class="block text-sm font-medium text-gray-700">Normalized Whole Brain Volume</label>
+                    <input type="number" id="nwbv" name="nwbv" step="0.001" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <p class="mt-1 text-xs text-gray-500">Fractional volume of the brain.</p>
+                </div>
+
+                <!-- Atlas Scaling Factor -->
+                <div>
+                    <label for="asf" class="block text-sm font-medium text-gray-700">Atlas Scaling Factor</label>
+                    <input type="number" id="asf" name="asf" step="0.001" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <button type="submit" class="w-full px-4 py-2 mt-6 text-white bg-indigo-600 rounded-full font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        Get Prediction
+                    </button>
+                </div>
+            </form>
+
+            <!-- Prediction Result -->
+            <div id="resultBox" class="mt-8 p-6 bg-gray-50 rounded-2xl border-2 border-gray-200 hidden">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Prediction Result</h3>
+                <div id="predictionResult" class="text-center text-3xl font-extrabold text-indigo-600 mb-4"></div>
+                <div id="explanation" class="text-sm text-gray-600"></div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorBox" class="mt-8 p-4 bg-red-50 border-2 border-red-200 rounded-xl hidden">
+                <p id="errorMessage" class="text-sm text-red-600 font-medium text-center"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Clear previous results and errors
+            document.getElementById('resultBox').classList.add('hidden');
+            document.getElementById('errorBox').classList.add('hidden');
+
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const educ = parseInt(document.getElementById('educ').value);
+            const ses = parseInt(document.getElementById('ses').value);
+            const mmse = parseInt(document.getElementById('mmse').value);
+            const cdr = parseFloat(document.getElementById('cdr').value);
+            const etiv = parseInt(document.getElementById('etiv').value);
+            const nwbv = parseFloat(document.getElementById('nwbv').value);
+            const asf = parseFloat(document.getElementById('asf').value);
+
+            // Simple validation
+            if (age < 0 || mmse < 0 || mmse > 30 || cdr < 0 || educ < 0 || ses < 1 || ses > 5 || nwbv < 0 || asf < 0) {
+                showError("Please enter valid input values.");
+                return;
+            }
+
+            // A very simple, rule-based "model" for a front-end demo
+            // This logic is a simplified representation of how a real model's coefficients might work.
+            let dementedScore = 0;
+            let explanationText = "Based on the provided data, the most influential factors are:<br><br>";
+
+            // Factor 1: Age (positive coefficient)
+            const ageEffect = age > 75 ? 2 : (age > 65 ? 1 : 0);
+            dementedScore += ageEffect;
+            if (ageEffect > 0) {
+                explanationText += `<span class="font-semibold text-green-700">Positive:</span> **Age** is a significant risk factor. The model gives it a high positive influence.<br>`;
+            } else {
+                explanationText += `<span class="font-semibold text-red-700">Negative:</span> Your age is not considered a primary risk factor in this model.<br>`;
+            }
+
+            // Factor 2: MMSE (negative coefficient)
+            const mmseEffect = (30 - mmse) / 10;
+            dementedScore += mmseEffect;
+            if (mmseEffect > 0.5) {
+                 explanationText += `<span class="font-semibold text-green-700">Positive:</span> **MMSE Score** is low, which suggests cognitive impairment and is a strong indicator.<br>`;
+            } else {
+                 explanationText += `<span class="font-semibold text-red-700">Negative:</span> Your MMSE score is high, a factor that decreases the likelihood of dementia.<br>`;
+            }
+
+            // Factor 3: CDR (positive coefficient)
+            const cdrEffect = cdr * 2;
+            dementedScore += cdrEffect;
+            if (cdrEffect > 1) {
+                explanationText += `<span class="font-semibold text-green-700">Positive:</span> The **CDR Score** is high, which is a strong clinical indicator of dementia.<br>`;
+            } else {
+                 explanationText += `<span class="font-semibold text-red-700">Negative:</span> The CDR score is low, which decreases the likelihood of dementia.<br>`;
+            }
+
+            // Factor 4: Normalized Whole Brain Volume (negative coefficient)
+            const nwbvEffect = (0.85 - nwbv) * 5;
+            dementedScore += nwbvEffect;
+            if (nwbvEffect > 0.5) {
+                explanationText += `<span class="font-semibold text-green-700">Positive:</span> **Normalized Whole Brain Volume** is low, a significant indicator of brain atrophy.<br>`;
+            } else {
+                explanationText += `<span class="font-semibold text-red-700">Negative:</span> Your brain volume is considered healthy.<br>`;
+            }
+
+            // Factor 5: Education (negative coefficient)
+            const educEffect = (20 - educ) / 5;
+            dementedScore += educEffect;
+            if (educEffect > 1) {
+                explanationText += `<span class="font-semibold text-green-700">Positive:</span> A **lower education level** is a contributing factor to the prediction.<br>`;
+            } else {
+                explanationText += `<span class="font-semibold text-red-700">Negative:</span> Your education level is not a primary risk factor.<br>`;
+            }
+
+
+            // Final prediction logic
+            let prediction = 'Nondemented';
+            if (dementedScore > 4.0) { // Adjusted threshold for the new factors
+                prediction = 'Demented';
+            }
+
+            // Update the UI with the result
+            const resultElement = document.getElementById('predictionResult');
+            const explanationElement = document.getElementById('explanation');
+            
+            resultElement.textContent = prediction;
+            explanationElement.innerHTML = explanationText;
+            document.getElementById('resultBox').classList.remove('hidden');
+
+            // Function to show error messages
+            function showError(message) {
+                const errorBox = document.getElementById('errorBox');
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = message;
+                errorBox.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
